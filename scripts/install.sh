@@ -2,7 +2,7 @@
 set -euo pipefail
 
 TAP="keepgoingcari/walkietalkie"
-FORMULA="walkietalkie"
+CASK="walkietalkie"
 
 if ! command -v brew >/dev/null 2>&1; then
   echo "Homebrew is required. Install from https://brew.sh"
@@ -10,7 +10,7 @@ if ! command -v brew >/dev/null 2>&1; then
 fi
 
 brew tap "$TAP"
-brew install "$FORMULA"
+brew install --cask --no-quarantine "$CASK"
 
 echo
 echo "Installed. Run onboarding next:"

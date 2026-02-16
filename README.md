@@ -9,6 +9,12 @@ walkietalkie setup
 walkietalkie
 ```
 
+If macOS blocks launch with "Apple could not verify":
+```bash
+xattr -dr com.apple.quarantine "$(which walkietalkie)"
+```
+Long-term production fix is Developer ID signing + notarization.
+
 ## Stack
 - Swift 6 + SwiftUI + AppKit menu bar app (macOS 13+)
 - Carbon global hotkeys (press/release for hold-to-talk)
