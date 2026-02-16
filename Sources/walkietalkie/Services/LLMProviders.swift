@@ -1,8 +1,19 @@
 import Foundation
 
+struct AgentTurn: Sendable {
+    enum Role: String, Sendable {
+        case user
+        case assistant
+    }
+    let role: Role
+    let content: String
+}
+
 protocol LLMProvider: Sendable {
     func partnerConversation(transcribedRequest: String) async throws -> String
     func condensePrompt(transcribedRequest: String, partnerOutput: String) async throws -> String
+    func collaborate(history: [AgentTurn]) async throws -> String
+    func condenseConversation(initialRequest: String, history: [AgentTurn]) async throws -> String
 }
 
 struct MockLLMProvider: LLMProvider {
@@ -36,6 +47,27 @@ struct MockLLMProvider: LLMProvider {
         \(partnerOutput)
         """
     }
+
+    func collaborate(history: [AgentTurn]) async throws -> String {
+        let latest = history.last(where: { $0.role == .user })?.content ?? ""
+        return "Partner pass: refine this by adding explicit constraints, touched files, and test criteria.\nFocus item: \(latest)"
+    }
+
+    func condenseConversation(initialRequest: String, history: [AgentTurn]) async throws -> String {
+        let conversation = history
+            .map { "\($0.role.rawValue): \($0.content)" }
+            .joined(separator: "\n")
+        return """
+        Goal:
+        \(initialRequest)
+
+        Conversation Context:
+        \(conversation)
+
+        Deliverable:
+        Produce one concise coding prompt with constraints, repo assumptions, files if mentioned, and acceptance criteria.
+        """
+    }
 }
 
 struct OpenAILLMProvider: LLMProvider {
@@ -51,6 +83,24 @@ struct OpenAILLMProvider: LLMProvider {
         let instructions = "Convert the material into one concise prompt optimized for coding LLMs in terminal TUIs. Include: goal, constraints, repo assumptions, files if mentioned, acceptance criteria. Output plain text only."
         let composedInput = "User request:\n\(transcribedRequest)\n\nPartner notes:\n\(partnerOutput)"
         return try await askOpenAI(input: composedInput, instructions: instructions)
+    }
+
+    func collaborate(history: [AgentTurn]) async throws -> String {
+        let instructions = "You are a concise engineering sparring partner inside a HUD. Build on user ideas, ask only critical clarifications, and provide actionable guidance in 4-8 bullet points."
+        let transcript = history
+            .suffix(16)
+            .map { "\($0.role.rawValue): \($0.content)" }
+            .joined(separator: "\n")
+        return try await askOpenAI(input: transcript, instructions: instructions)
+    }
+
+    func condenseConversation(initialRequest: String, history: [AgentTurn]) async throws -> String {
+        let instructions = "Generate one final prompt for a coding LLM in terminal TUI. Include goal, constraints, assumptions, file targets if present, and acceptance criteria. Avoid fluff."
+        let transcript = history
+            .map { "\($0.role.rawValue): \($0.content)" }
+            .joined(separator: "\n")
+        let input = "Initial request:\n\(initialRequest)\n\nConversation:\n\(transcript)"
+        return try await askOpenAI(input: input, instructions: instructions)
     }
 
     private func askOpenAI(input: String, instructions: String) async throws -> String {
