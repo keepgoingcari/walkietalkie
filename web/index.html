@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Walkietalkie.dev - Voice-powered coding</title>
+    <meta name="description" content="Walkietalkie is a push-to-talk voice layer for terminal coding agents like Codex CLI and Claude Code.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #ffffff;
+            color: #111;
+        }
+        .mono {
+            font-family: 'JetBrains Mono', monospace;
+        }
+        .hero-text {
+            font-size: clamp(2.5rem, 5vw, 4.5rem);
+            line-height: 1.1;
+            letter-spacing: -0.03em;
+            font-weight: 600;
+        }
+        .gradient-card {
+            background: linear-gradient(180deg, #111111 0%, #1a1a1a 100%);
+            border-radius: 24px;
+            position: relative;
+            overflow: hidden;
+        }
+        .glow {
+            position: absolute;
+            bottom: -50px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80%;
+            height: 200px;
+            background: radial-gradient(circle, rgba(255, 87, 51, 0.15) 0%, rgba(255, 255, 255, 0) 70%);
+            pointer-events: none;
+        }
+        .btn-black {
+            background-color: #000;
+            color: #fff;
+            padding: 10px 24px;
+            border-radius: 9999px;
+            transition: all 0.2s;
+        }
+        .btn-black:hover {
+            opacity: 0.8;
+            transform: translateY(-1px);
+        }
+        .nav-link {
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: #666;
+        }
+        .terminal-accent {
+            color: #ff5733;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <nav class="max-w-7xl mx-auto px-6 py-8 flex items-center justify-between">
+        <div class="flex items-center gap-2">
+            <div class="w-8 h-8 bg-black rounded-lg flex items-center justify-center">
+                <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" class="w-5 h-5">
+                    <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z" />
+                    <path d="M19 10v2a7 7 0 0 1-14 0v-2" />
+                    <line x1="12" y1="19" x2="12" y2="23" />
+                    <line x1="8" y1="23" x2="16" y2="23" />
+                </svg>
+            </div>
+            <span class="font-bold text-xl tracking-tight">Walkietalkie<span class="text-gray-400">.dev</span></span>
+        </div>
+
+        <div class="hidden md:flex items-center gap-8">
+            <a href="#features" class="nav-link hover:text-black">Features</a>
+            <a href="#install" class="nav-link hover:text-black">Install</a>
+            <a href="https://github.com/keepgoingcari/walkietalkie" class="nav-link hover:text-black" target="_blank" rel="noreferrer">GitHub</a>
+            <a href="#install" class="btn-black">Get Started</a>
+        </div>
+    </nav>
+
+    <main class="max-w-7xl mx-auto px-6 pt-12 md:pt-20">
+        <div class="grid lg:grid-cols-2 gap-12 items-end">
+            <div>
+                <h1 class="hero-text">
+                    Speak your tasks <br>
+                    straight into the <br>
+                    <span class="terminal-accent italic">terminal.</span>
+                </h1>
+            </div>
+            <div class="pb-4 lg:pl-12">
+                <p class="text-gray-500 text-lg leading-relaxed max-w-md mb-8">
+                    A push-to-talk voice interface for coding agents. Convert intent into agent-ready prompts without leaving your flow.
+                </p>
+                <div class="flex items-center gap-4">
+                    <a href="https://github.com/keepgoingcari/walkietalkie" target="_blank" rel="noreferrer" class="flex items-center gap-2 px-6 py-3 border border-gray-200 rounded-full font-medium hover:bg-gray-50 transition-colors">
+                        View Project
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="7" y1="17" x2="17" y2="7"></line>
+                            <polyline points="7 7 17 7 17 17"></polyline>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div id="install" class="mt-16 gradient-card min-h-[450px] flex flex-col justify-between p-8 md:p-12 shadow-2xl">
+            <div class="w-full max-w-3xl mx-auto bg-[#0a0a0a] rounded-xl border border-white/5 overflow-hidden shadow-2xl transform rotate-1">
+                <div class="flex items-center gap-1.5 px-4 py-3 border-b border-white/5 bg-white/5">
+                    <div class="w-3 h-3 rounded-full bg-red-500/30"></div>
+                    <div class="w-3 h-3 rounded-full bg-yellow-500/30"></div>
+                    <div class="w-3 h-3 rounded-full bg-green-500/30"></div>
+                    <div class="ml-4 text-[10px] mono text-white/30 uppercase tracking-widest">Quick Start</div>
+                </div>
+                <div class="p-6 mono text-sm leading-relaxed">
+                    <div class="mb-2">
+                        <div id="install-command" class="text-green-400 break-all">$ /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/keepgoingcari/walkietalkie/main/scripts/install.sh)"</div>
+                        <div class="mt-2">
+                            <button id="copy-install-btn" class="text-xs text-black bg-white px-3 py-1.5 rounded-full font-semibold hover:bg-gray-200 transition-colors">Copy Install Command</button>
+                        </div>
+                    </div>
+                    <div class="text-blue-300 mb-2">$ walkietalkie setup</div>
+                    <div class="text-white/90 bg-white/5 p-3 rounded border border-white/10 mb-4">
+                        <span class="text-gray-400">Then launch:</span> walkietalkie
+                    </div>
+                    <div class="text-orange-300">
+                        <span class="text-white animate-pulse">▋</span> Hold hotkey, speak, inject.
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex flex-wrap gap-12 mt-12 md:mt-0 items-end">
+                <div>
+                    <div class="text-white text-3xl font-semibold mb-1">2</div>
+                    <div class="text-white/40 text-xs uppercase tracking-widest mono">PTT Modes</div>
+                </div>
+                <div>
+                    <div class="text-white text-3xl font-semibold mb-1">Any</div>
+                    <div class="text-white/40 text-xs uppercase tracking-widest mono">Focused App</div>
+                </div>
+                <div>
+                    <div class="text-white text-3xl font-semibold mb-1">0</div>
+                    <div class="text-white/40 text-xs uppercase tracking-widest mono">Workflow Breaks</div>
+                </div>
+            </div>
+
+            <div class="glow"></div>
+        </div>
+    </main>
+
+    <section id="features" class="max-w-7xl mx-auto px-6 py-24">
+        <div class="grid md:grid-cols-3 gap-12">
+            <div>
+                <h3 class="font-bold text-lg mb-3">Push-to-Talk</h3>
+                <p class="text-gray-500 leading-relaxed">Global hotkeys for dictation mode and agent mode. Hold, speak, release.</p>
+            </div>
+            <div>
+                <h3 class="font-bold text-lg mb-3">Agent-Ready Prompts</h3>
+                <p class="text-gray-500 leading-relaxed">Transforms spoken requests into concise, structured prompts for coding LLMs.</p>
+            </div>
+            <div>
+                <h3 class="font-bold text-lg mb-3">Universal Injection</h3>
+                <p class="text-gray-500 leading-relaxed">Works across Terminal, iTerm2, Warp, VS Code terminal, and any focused text field.</p>
+            </div>
+        </div>
+    </section>
+
+    <footer class="border-t border-gray-100 py-12">
+        <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-6">
+            <div class="text-sm text-gray-400 mono">© 2026 Walkietalkie.dev - Built for voice-first coding</div>
+            <div class="flex gap-8">
+                <a href="https://github.com/keepgoingcari/walkietalkie" class="text-sm text-gray-500 hover:text-black" target="_blank" rel="noreferrer">GitHub</a>
+                <a href="https://github.com/keepgoingcari/homebrew-walkietalkie" class="text-sm text-gray-500 hover:text-black" target="_blank" rel="noreferrer">Homebrew Tap</a>
+                <a href="#install" class="text-sm text-gray-500 hover:text-black">Install</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+      (function () {
+        const button = document.getElementById("copy-install-btn");
+        const command = document.getElementById("install-command");
+        if (!button || !command) return;
+
+        const text = command.innerText.replace(/^\\$\\s*/, "").trim();
+        button.addEventListener("click", async function () {
+          try {
+            await navigator.clipboard.writeText(text);
+            button.textContent = "Copied";
+            setTimeout(function () {
+              button.textContent = "Copy";
+            }, 1400);
+          } catch (err) {
+            button.textContent = "Failed";
+            setTimeout(function () {
+              button.textContent = "Copy";
+            }, 1400);
+          }
+        });
+      })();
+    </script>
+
+</body>
+</html>
