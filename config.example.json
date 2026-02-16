@@ -1,0 +1,48 @@
+{
+  "hotkeys": {
+    "agent": {
+      "key": "space",
+      "modifiers": [
+        "control",
+        "option",
+        "command"
+      ]
+    },
+    "dictation": {
+      "key": "space",
+      "modifiers": [
+        "control",
+        "option"
+      ]
+    }
+  },
+  "injection": {
+    "allowlistBundleIDs": [
+      "com.apple.Terminal",
+      "com.googlecode.iterm2",
+      "com.microsoft.VSCode"
+    ],
+    "fallbackToKeystrokesOnFailure": true,
+    "injectAnywhere": true,
+    "preInjectHUDMillis": 850,
+    "usePasteThenOptionalEnter": true
+  },
+  "llm": {
+    "model": "gpt-4.1-mini",
+    "openAIAPIKeyEnv": "OPENAI_API_KEY",
+    "provider": "mock"
+  },
+  "modeBehavior": {
+    "agent": {
+      "autoEnter": false
+    },
+    "dictation": {
+      "autoEnter": false
+    }
+  },
+  "stt": {
+    "openAIAPIKeyEnv": "OPENAI_API_KEY",
+    "openAIModel": "gpt-4o-mini-transcribe",
+    "provider": "mock"
+  }
+}
