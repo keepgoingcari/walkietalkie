@@ -2,6 +2,13 @@
 
 A global push-to-talk voice layer that runs **alongside** Codex CLI / Claude Code / any TUI in any terminal app. It never wraps PTYs and never becomes the coding agent entrypoint.
 
+## Install (No `swift run`)
+```bash
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/keepgoingcari/walkietalkie/main/scripts/install.sh)"
+walkietalkie setup
+walkietalkie
+```
+
 ## Stack
 - Swift 6 + SwiftUI + AppKit menu bar app (macOS 13+)
 - Carbon global hotkeys (press/release for hold-to-talk)
@@ -179,15 +186,23 @@ On first real use, macOS should request permissions:
 - Local on-device STT option.
 
 ## Homebrew Packaging
+A formula template is included at:
+- `packaging/homebrew/Formula/walkietalkie.rb`
+
 A cask template is included at:
 - `packaging/homebrew/Casks/walkietalkie.rb`
 
 Release flow:
-1. Build/sign/notarize `Walkietalkie.app` and publish zip in GitHub Releases.
-2. Update cask `version`, `sha256`, and release `url`.
-3. Push cask to your tap repo (`homebrew-tap`).
-4. Install with:
+1. Tag a release (`vX.Y.Z`) and push tag.
+2. Generate source tarball + sha:
 ```bash
-brew tap <you>/tap
-brew install --cask walkietalkie
+./scripts/create_release_artifacts.sh X.Y.Z
+```
+3. Upload artifact to GitHub release.
+4. Update formula `url` and `sha256`.
+5. Push formula to your tap repo.
+6. Install with:
+```bash
+brew tap keepgoingcari/walkietalkie
+brew install walkietalkie
 ```
