@@ -15,6 +15,23 @@ xattr -dr com.apple.quarantine "$(which walkietalkie)"
 ```
 Long-term production fix is Developer ID signing + notarization.
 
+## Signing + Notarization (Release)
+One-time credential setup:
+```bash
+xcrun notarytool store-credentials "walkietalkie-notary" \
+  --apple-id "you@example.com" \
+  --team-id "YOUR_TEAM_ID" \
+  --password "APP_SPECIFIC_PASSWORD"
+```
+
+Per release:
+```bash
+export SIGN_IDENTITY="Developer ID Application: Your Name (TEAMID)"
+export NOTARY_PROFILE="walkietalkie-notary"
+./scripts/release_notarize.sh /path/to/Walkietalkie.app
+./scripts/release_verify.sh /path/to/notarized/Walkietalkie.app
+```
+
 ## Stack
 - Swift 6 + SwiftUI + AppKit menu bar app (macOS 13+)
 - Carbon global hotkeys (press/release for hold-to-talk)
